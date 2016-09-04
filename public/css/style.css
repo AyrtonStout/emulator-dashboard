@@ -1,0 +1,45 @@
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #F6F4F3;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.cursor {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    position: fixed;
+    z-index: 1;
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.game {
+    width: 250px;
+    height: 170px;
+    background-color: #D7EEF4;
+    border: 3px solid #87CDDE;
+}
+
+.selected {
+    background-color: #D9ECF9;
+    /*background-color: #ff3f41;*/
+    border-color: #2F94DA;
+    /*border-color: #ff0c00;*/
+}
+
+.game img {
+    width: 250px;
+}
+
+/* Dark text #AC9D93 */
+/* Light text #C8BEB7 */
