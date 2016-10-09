@@ -62,6 +62,11 @@ this.attachListener = function(thingie)    {
 
 function addKillPress(button)   {
     let length = killButtonsPressed.push(button);
+    if (length == 1)    {
+        //If this is the first kill button detected, add a timer to reset
+        //progress if the other buttons aren't pushed fast enough
+        setTimeout(() => { killButtonsPressed = []; }, 1000);
+    }
     if (length >= 4)    {
         gameLauncher.closeEmulator();
         killButtonsPressed = [];

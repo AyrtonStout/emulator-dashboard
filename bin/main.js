@@ -1,7 +1,9 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const xinput = require('../public/js/controller.js');
-const gameLauncher = require('../public/js/gameLauncher.js');
-//const robot = require('robotjs'); //Hopefully will be used to move the mouse cursor around / offscreen
+const mysql = require('../public/js/mysql');
+const endpoints = require('../public/js/endpoints');
+const gameApi = require('../public/js/gameApi');
+const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,15 +11,8 @@ let mainWindow;
 
 function createWindow () {
     // Create the browser window.
-    //mainWindow = new BrowserWindow({width: 800, height: 600, kiosk: true, frame: false});
-    mainWindow = new BrowserWindow(
-        {
-            width: 1200,
-            height: 800,
-            //webPreferences: {
-                //webSecurity: false
-            //}
-        });
+    //mainWindow = new BrowserWindow({width: 1200, height: 800, kiosk: true, frame: false});
+    mainWindow = new BrowserWindow({width: 1200, height: 800});
 
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/../public/html/index.html`);
@@ -31,24 +26,39 @@ function createWindow () {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+
+    //endpoints.init(mainWindow);
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', function () {
+    createWindow();
+    endpoints.init(mainWindow);
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
     app.quit();
 });
 
-app.on('activate', function () {
-    createWindow();
-});
+function updateGameMySQLData(systemData)  {
 
-ipcMain.on('launch-game', function(e, arg)  {
-    console.log("Launching game");
-    console.log(arg);
-    gameLauncher.launchEmulator(arg);
-});
+    //For each game system
+    systemData.forEach(function (system)    {
+        let systemFolder = system.emulator_folder;
+        let path = `C:/Program Files (x86)/Emulation Station/${systemFolder}/ROMs`;
+        let ROMs = fs.readdirSync(path);
+
+        //Get all of the game names
+        ROMs = ROMs.map(function(ROM) {
+            return ROM.substr(0, ROM.lastIndexOf('.'));
+        });
+
+        //And query the igdb API
+        ROMs.forEach((name) => { gameApi.queryGameData(name, system.id); });
+    });
+}
+
+mysql.getActiveGameSystems(updateGameMySQLData);

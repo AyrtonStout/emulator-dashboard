@@ -41,5 +41,35 @@ a {
     width: 250px;
 }
 
+.header {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header img {
+    width: 200px;
+}
+
+.gameList .selected {
+    background-color: #87CDDE;
+    color: #1268da;
+}
+
+.gameList div {
+    background-color: #87CDDE;
+    color: #2F94DA;
+    font-size: 25px;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+.container > div{
+    display: inline-block;
+    vertical-align: top;
+}
+
 /* Dark text #AC9D93 */
 /* Light text #C8BEB7 */
