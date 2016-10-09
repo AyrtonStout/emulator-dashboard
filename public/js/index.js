@@ -1,6 +1,3 @@
-/**
- * Created by mobius1 on 8/18/2016.
- */
 
 const {ipcRenderer} = require('electron');
 const numSystems = document.getElementsByClassName("game").length;
@@ -13,7 +10,7 @@ ipcRenderer.on('button-long', function(e, arg)    {
 ipcRenderer.on('button-short', function(e, button)    {
     console.log(button);
     if (button === "buttons.a")    {
-        launchGame();
+        selectConsole();
     } else if (isDPadButton(button))    {
         moveCursor(button);
     }
@@ -64,7 +61,13 @@ function moveCursor(button) {
     console.log("Moving cursor");
 }
 
-function launchGame()   {
-    console.log("Launching game from website");
-    ipcRenderer.send('launch-game', getSelectedElementNum());
+function selectConsole()   {
+    ipcRenderer.send('select-console', getSelectedElementNum());
 }
+
+ipcRenderer.on('populate-console-list', function(e, consoles)  {
+    console.log("What up");
+    console.log(consoles);
+});
+
+ipcRenderer.send('request-console-list', "");

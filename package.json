@@ -14,10 +14,11 @@
     "express": "~4.13.4",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
+    "mysql": "^2.11.1",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
     "electron": "^1.2.0",
-    "electron-rebuild": "^1.2.0"
+    "electron-rebuild": "^1.2.1"
   }
 }
