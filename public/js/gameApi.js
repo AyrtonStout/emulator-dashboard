@@ -27,8 +27,9 @@ function sendQuery(gameName, system, options)   {
             });
             let game = games[0];
             if (game)   {
-                downloadCover(gameName, game.cover.cloudinary_id);
-                mysql.addGame(game.name, system, game.first_release_date);
+                mysql.addGame(game.name, system, game.first_release_date, function (insertId)   {
+                    downloadCover(insertId, game.cover.cloudinary_id);
+                });
             } else {
                 console.log(`Failed to find game with name identical to "${gameName}"`);
                 games.map(function(game) { console.log(game.name); });
@@ -44,9 +45,9 @@ function sendQuery(gameName, system, options)   {
         });
 }
 
-function downloadCover(gameName, cloudinaryId)    {
+function downloadCover(gameId, cloudinaryId)    {
     let url = `https://res.cloudinary.com/igdb/image/upload/t_cover_big_2x/${cloudinaryId}`;
-    let imageDir = `./public/imgs/covers/${gameName}.jpg`;
+    let imageDir = `./public/imgs/covers/${gameId}.jpg`;
 
     let options = {url: url};
     http.get(options, imageDir, function (error, result) {

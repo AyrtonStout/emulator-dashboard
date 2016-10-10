@@ -1,6 +1,6 @@
 
 const {ipcRenderer} = require('electron');
-const numSystems = document.getElementsByClassName("game").length;
+let numSystems = null;
 const rowSize = 3;
 
 ipcRenderer.on('button-long', function(e, arg)    {
@@ -35,6 +35,10 @@ function getSelectedElementNum()    {
     return parseInt(id.substr(4));
 }
 
+function getSelectedConsoleId() {
+    return document.getElementsByClassName("selected")[0].getAttribute('console-id');
+}
+
 function selectSystem(oldSystem, newSystem)    {
     document.getElementById("game" + oldSystem).classList.remove("selected");
     document.getElementById("game" + oldSystem).classList.remove("pulse");
@@ -62,12 +66,51 @@ function moveCursor(button) {
 }
 
 function selectConsole()   {
-    ipcRenderer.send('select-console', getSelectedElementNum());
+    ipcRenderer.send('select-console', getSelectedConsoleId(), getSelectedElementNum());
+}
+
+function getConsoleAppendPoint()    {
+    let grids = document.getElementsByClassName("grid");
+    if (grids.length == 0 || grids.length % 3 == 0)  {
+        let divNode = document.createElement('div');
+        let ulNode = document.createElement('ul');
+
+        ulNode.classList.add("grid");
+        divNode.appendChild(ulNode);
+        document.getElementById("gameGrids").appendChild(divNode);
+        return ulNode;
+    } else {
+        return grids[grids.length - 1];
+    }
 }
 
 ipcRenderer.on('populate-console-list', function(e, consoles)  {
-    console.log("What up");
-    console.log(consoles);
+    numSystems = consoles.length;
+    for (let i = 0; i < consoles.length; i++)   {
+        let system = consoles[i];
+
+        let img = document.createElement('img');
+        img.setAttribute('src', `../imgs/${system.abbreviation}.png`);
+
+        let node = document.createElement("li");
+        node.setAttribute('console-id', system.id);
+        node.setAttribute('id', "game" + i);
+        if (i == 0) {
+            node.classList.add("selected");
+        }
+        node.classList.add("animated");
+        node.classList.add("game");
+        node.appendChild(img);
+
+        getConsoleAppendPoint().appendChild(node);
+    }
+    ipcRenderer.send('request-last-selected-console-index');
+});
+
+ipcRenderer.on('populate-last-selected-console-index', function(e, index)  {
+    console.log("Index");
+    console.log(index);
+    selectSystem(0, index);
 });
 
 ipcRenderer.send('request-console-list', "");

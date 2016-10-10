@@ -6,21 +6,21 @@ var self = this;
 
 this.emulatorStatus = -1;
 
-this.launchEmulator = function(emulatorIndex, gameIndex)   {
-    if (emulatorIndex == 0)   {
+this.launchEmulator = function(emulatorIndex, gameName)   {
+    if (emulatorIndex == 18)   {
         let path = "C:/Program Files (x86)/Emulation Station/Nestopia/";
         let exePath = path + "nestopia.exe";
         let romPath = path + "ROMs/";
-        let gameName = gameNameFromIndex(romPath, gameIndex);
+        gameName = gameFullGameNameFromName(romPath, gameName);
         let game = `${romPath}${gameName}`;
         let args = `-video fullscreen bbp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched`;
         let final = `"${exePath}" "${game}" ${args}`;
         childProcess = exec(final);
-    } else if (emulatorIndex == 1)  {
+    } else if (emulatorIndex == 19)  {
         let path = "C:/Program Files (x86)/Emulation Station/Snes9x/";
         let exePath = path + "snes9x.exe";
         let romPath = path + "ROMs/";
-        let gameName = gameNameFromIndex(romPath, gameIndex);
+        gameName = gameFullGameNameFromName(romPath, gameName);
         let game = `${romPath}${gameName}`;
         let args = "-fullscreen";
         let final = `"${exePath}" ${args} "${game}"`;
@@ -31,15 +31,27 @@ this.launchEmulator = function(emulatorIndex, gameIndex)   {
 };
 
 this.closeEmulator = function() {
-    console.log("Attempting to close emulator");
     if (childProcess)   {
-        console.log("Emulator closing");
         spawn("taskkill", ["/pid", childProcess.pid, '/f', '/t']);
     }
     self.emulatorStatus = -1;
 };
 
-function gameNameFromIndex(path, index)   {
+/*
+ * Basically includes the game's extension as well
+ */
+function gameFullGameNameFromName(path, gameName)   {
     let ROMs = fs.readdirSync(path);
-    return ROMs[index];
+
+    for (let i = 0; i < ROMs.length; i++)   {
+        let fileName = ROMs[i];
+        let regex = `${gameName}[.].*`;
+        console.log(regex);
+        var patt = new RegExp(regex, "i");
+        if (patt.test(fileName))  {
+            return fileName;
+        }
+    }
+    console.log("ERROR: No suitable game file found to launch");
+    return null;
 }
