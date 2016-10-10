@@ -1,7 +1,9 @@
 const xinput = require('xinputjs');
 const gameLauncher = require('./gameLauncher.js');
 var killCombination = ["thumb.right", "thumb.left", "shoulder.left", "shoulder.right"];
-var killButtonsPressed = [];
+var killButtonsPressed = [
+    [], [], [], []
+];
 
 controllers = [0, 1, 2, 3]
     .filter(n => xinput.IsConnected(n))
@@ -24,7 +26,7 @@ this.attachListener = function(thingie)    {
             //thingie.send('button-long', button);
             if (killCombination.indexOf(button) >= 0)   {
                 console.log("Button found");
-                addKillPress(button);
+                addKillPress(button, gamepad.deviceNumber);
             } else {
                 console.log("Button not found");
             }
@@ -60,16 +62,16 @@ this.attachListener = function(thingie)    {
     });
 };
 
-function addKillPress(button)   {
-    let length = killButtonsPressed.push(button);
+function addKillPress(button, gamepadNum)   {
+    let length = killButtonsPressed[gamepadNum].push(button);
     if (length == 1)    {
         //If this is the first kill button detected, add a timer to reset
         //progress if the other buttons aren't pushed fast enough
-        setTimeout(() => { killButtonsPressed = []; }, 1000);
+        setTimeout(() => { killButtonsPressed[gamepadNum] = []; }, 1000);
     }
     if (length >= 4)    {
         gameLauncher.closeEmulator();
-        killButtonsPressed = [];
+        killButtonsPressed[gamepadNum] = [];
     }
 }
 
