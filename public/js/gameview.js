@@ -12,7 +12,7 @@ ipcRenderer.on('button-short', function(e, button)    {
     } else if (button === "dpad.up")    {
         moveSelection(-1);
     } else if (button === "buttons.a") {
-        ipcRenderer.send('launch-game', document.getElementById("game" + selectedGame).innerHTML);
+        ipcRenderer.send('launch-game', document.getElementById("game" + selectedGame).getAttribute("fileName"));
     } else if (button === "buttons.b")   {
         ipcRenderer.send('enter-console-select', "");
     }
@@ -54,6 +54,7 @@ ipcRenderer.on('populate-game-list', function(e, gameData)  {
 
         node.setAttribute('id', 'game' + i);
         node.setAttribute('gameId', game.id);
+        node.setAttribute('fileName', game.file_name);
         node.classList.add("animated");
         node.innerHTML = game.name;
         document.getElementById("gameList").appendChild(node);
