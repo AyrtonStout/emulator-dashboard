@@ -36,11 +36,11 @@ this.getConsoleData = function(consoleId, callback) {
     });
 };
 
-this.addGame = function(name, system, release, callback)   {
+this.addGame = function(name, fileSystemName, system, release, callback)   {
     release = new Date(release);
     release = `${release.getFullYear()}-${release.getMonth()}-${release.getDay()}`;
-    let sql = `INSERT INTO games (name, system, \`release\`) VALUES (${mysql.escape(name)}, ${system}, '${release}')`;
-    sql += `ON DUPLICATE KEY UPDATE \`release\` = '${release}'`;
+    let sql = `INSERT INTO games (name, file_name, system, \`release\`) VALUES (${mysql.escape(name)}, ${mysql.escape(fileSystemName)}, ${system}, '${release}')`;
+    sql += `ON DUPLICATE KEY UPDATE \`release\` = '${release}', file_name = ${mysql.escape(fileSystemName)}`;
     connection.query(sql, function (err, result)    {
         if (err) throw err;
 

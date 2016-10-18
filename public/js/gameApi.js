@@ -3,46 +3,49 @@ const unirest = require('unirest');
 const http = require('http-request');
 const mysql = require('./mysql');
 
-this.queryGameData = function(gameName, system)    {
+this.queryGameData = function(gameName, fileExtension, system)    {
     let options = {};
-    sendQuery(gameName, system, options);
+    sendQuery(gameName, fileExtension, system, options);
 };
 
-function sendQuery(gameName, system, options)   {
+function sendQuery(fileSystemName, fileExtension, system, options)   {
     let apiKey = "UZ7Yzmbll7mshdQKUXm6iIzXeMKDp1BMIUPjsnA7KrwDs0Mahj";
 
     let limit =  options.limit || 30;
     let offset =  options.offset || 0;
     let order =  options.order || "release_dates.date:desc";
 
-    let url = `https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=${limit}&offset=${offset}&search=${gameName}`;
+    let url = `https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=${limit}&offset=${offset}&search=${fileSystemName}`;
 
     unirest.get(encodeURI(url))
         .header("X-Mashape-Key", apiKey)
         .header("Accept", "application/json")
         .end(function (result) {
             let games = result.body;
+            let targetSlug = convertToSlug(fileSystemName);
             games = games.filter(function(game) {
-                return (game.name.toLowerCase() == gameName.toLowerCase());
+                return (game.slug == targetSlug);
             });
             let game = games[0];
             if (game)   {
-                mysql.addGame(game.name, system, game.first_release_date, function (insertId)   {
+                mysql.addGame(game.name, (fileSystemName + fileExtension), system, game.first_release_date, function (insertId)   {
                     downloadCover(insertId, game.cover.cloudinary_id);
                 });
             } else {
-                console.log(`Failed to find game with name identical to "${gameName}"`);
+                console.log(`Failed to find game with name identical to "${fileSystemName}"`);
                 games.map(function(game) { console.log(game.name); });
                 console.log("\nAttempted URL:");
                 console.log(url);
             }
-
-            /*
-             console.log(result.body.map(function(game) {
-             return game.cover.cloudinary_id;
-             }));
-             */
         });
+}
+
+function convertToSlug(string)    {
+    string = string.toLowerCase();
+    string = string.replace(/[:.]/g, '');
+    string = string.replace(/[ ']/g, '-');
+    string = string.replace(/(-)\1+/g, '$1');
+    return string;
 }
 
 function downloadCover(gameId, cloudinaryId)    {

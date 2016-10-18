@@ -1,66 +1,86 @@
 const xinput = require('xinputjs');
 const gameLauncher = require('./gameLauncher.js');
+
+var self = this;
 var killCombination = ["thumb.right", "thumb.left", "shoulder.left", "shoulder.right"];
 var killButtonsPressed = [
     [], [], [], []
 ];
+var mainWindow = null;
+var connectedControllers = new Set(); //Indexes of controllers that are connected
+var disconnectedControllers = new Set();
+const numControllers = 4;
+const numExpectedControllers = 2;
+[...new Array(numControllers).keys()].forEach(num => disconnectedControllers.add(num)); //Add all disconnected controllers that are expected to become connected later
 
-controllers = [0, 1, 2, 3]
-    .filter(n => xinput.IsConnected(n))
-    .map(n => xinput.WrapController(n, {
+var activeControllerObjects = []; //Objects of controllers that are connected
+
+const controllerOptions = {
         interval: 20,
         deadzone: {
             x: 0.20,
             y: 0.15
         },
         holdtime: 1500
-    }));
+    };
 
+function wrapController(controllerNum)  {
+    return xinput.WrapController(controllerNum, controllerOptions);
+}
 
-this.attachListener = function(thingie)    {
-
-    controllers.forEach(gamepad => {
-        var n = gamepad.deviceNumber;
-
-        gamepad.addListener("button-long", (button, elapsed) => {
-            //thingie.send('button-long', button);
-            if (killCombination.indexOf(button) >= 0)   {
-                console.log("Button found");
-                addKillPress(button, gamepad.deviceNumber);
-            } else {
-                console.log("Button not found");
-            }
-            console.log("[%d] Hold button %s for %dms", n, button, elapsed);
-        });
-
-        gamepad.addListener("button-short", (button, elapsed) => {
-            if (gameLauncher.emulatorStatus < 0) { //A game is not running
-                thingie.send('button-short', button);
-            }
-        });
-
-        /*
-        gamepad.addListener("button-changed", (button, state) => {
-            thingie.send('button-changed', button + " " + state);
-        });
-
-        gamepad.addListener("analog-input", (input, data) => {
-        });
-        */
-
-        //This doesn't seem to work
-        gamepad.addListener("connection-changed", (isConnected) => {
-            thingie.send('analog-input', isConnected);
-            var message = "[%d] Connection state changed: %s" + n + isConnected ? "Connected!" : "Disconnected!";
-            document.getElementById("youBitch").innerHTML(message);
-            //console.log(, n, isConnected ? "Connected!" : "Disconnected!");
-            /* Pulling out the batteries + plugging them back in ->
-             [1] Connection state changed: Disconnected!
-             [1] Connection state changed: Connected!
-             */
-        });
+this.attachListeners = function()    {
+    disconnectedControllers.forEach(gamepadNum => {
+        addListener(gamepadNum);
     });
 };
+
+this.setMainWindow = function(window)  {
+    mainWindow = window;
+};
+
+function addListener(gamepadNum)   {
+    //This controller is already connected. Do not add more listeners to it
+    if (connectedControllers.has(gamepadNum))   {
+        return;
+    }
+
+    //This controller is not connected and listeners cannot be applied to it
+    if (!xinput.IsConnected(gamepadNum)) {
+        return;
+    }
+
+    let gamepad = wrapController(gamepadNum);
+
+    gamepad.addListener("button-long", (button, elapsed) => {
+        //thingie.send('button-long', button);
+        if (killCombination.indexOf(button) >= 0)   {
+            console.log("Button found");
+            addKillPress(button, gamepad.deviceNumber);
+        } else {
+            console.log("Button not found");
+        }
+        console.log("[%d] Hold button %s for %dms", gamepadNum, button, elapsed);
+    });
+
+    gamepad.addListener("button-short", (button, elapsed) => {
+        if (gameLauncher.emulatorStatus < 0) { //A game is not running
+            mainWindow.send('button-short', button);
+        }
+    });
+
+    //This doesn't seem to work
+    gamepad.addListener("connection-changed", (isConnected) => {
+        var message = "[%d] Connection state changed: %s" + n + isConnected ? "Connected!" : "Disconnected!";
+        /* Pulling out the batteries + plugging them back in ->
+         [1] Connection state changed: Disconnected!
+         [1] Connection state changed: Connected!
+         */
+    });
+
+    activeControllerObjects.push(gamepad);
+    disconnectedControllers.delete(gamepadNum);
+    connectedControllers.add(gamepadNum);
+}
 
 function addKillPress(button, gamepadNum)   {
     let length = killButtonsPressed[gamepadNum].push(button);
@@ -75,3 +95,17 @@ function addKillPress(button, gamepadNum)   {
     }
 }
 
+function monitorForNewControllers()    {
+    self.attachListeners();
+
+    let numDisconnectedControllers = disconnectedControllers.size;
+    if (numDisconnectedControllers == numControllers)    { //No controllers are connected
+        setTimeout(monitorForNewControllers, 500);
+    } else if (numDisconnectedControllers > (numControllers - numExpectedControllers))    {
+        setTimeout(monitorForNewControllers, 1000);
+    } else if (numDisconnectedControllers) {
+        setTimeout(monitorForNewControllers, 30000);
+    }
+}
+
+monitorForNewControllers();

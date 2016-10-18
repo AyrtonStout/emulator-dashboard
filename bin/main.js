@@ -17,7 +17,8 @@ function createWindow () {
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/../public/html/index.html`);
 
-    xinput.attachListener(mainWindow.webContents);
+    xinput.setMainWindow(mainWindow.webContents);
+    xinput.attachListeners();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
@@ -51,13 +52,15 @@ function updateGameMySQLData(systemData)  {
         let path = `C:/Program Files (x86)/Emulation Station/${systemFolder}/ROMs`;
         let ROMs = fs.readdirSync(path);
 
-        //Get all of the game names
+        //Separate all ROMs into their file name and their extensions
         ROMs = ROMs.map(function(ROM) {
-            return ROM.substr(0, ROM.lastIndexOf('.'));
+            let extensionIndex = ROM.lastIndexOf('.');
+            return [ROM.substring(0, extensionIndex), ROM.substring(extensionIndex)];
+            //return ROM.substr(0, ROM.lastIndexOf('.'));
         });
 
         //And query the igdb API
-        ROMs.forEach((name) => { gameApi.queryGameData(name, system.id); });
+        ROMs.forEach((ROM) => { gameApi.queryGameData(ROM[0], ROM[1], system.id); });
     });
 }
 
