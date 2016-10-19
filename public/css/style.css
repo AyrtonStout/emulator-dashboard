@@ -1,6 +1,7 @@
 body {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
     background-color: #F6F4F3;
+    overflow: hidden;
 }
 
 a {
@@ -69,6 +70,20 @@ a {
 .container > div{
     display: inline-block;
     vertical-align: top;
+    width: 49%;
+    text-align: center;
+}
+
+.embiggen {
+    font-size: 40px;
+    text-transform: capitalize;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+.splash {
+    text-align: center;
 }
 
 /* Dark text #AC9D93 */
