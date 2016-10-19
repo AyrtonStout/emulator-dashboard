@@ -53,7 +53,6 @@ ipcMain.on('request-game-details', function(e, gameId)    {
 
 ipcMain.on('request-console-info', function(e, arg) {
     mysql.getConsoleData(selectedConsole, function(consoleData) {
-        console.log(consoleData);
         mainWindow.webContents.send('populate-console-info', consoleData[0]);
     });
 });

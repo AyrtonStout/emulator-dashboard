@@ -62,7 +62,6 @@ function moveCursor(button) {
         if (gameNum - rowSize < 0)  return false;
         selectSystem(gameNum, gameNum - rowSize);
     }
-    console.log("Moving cursor");
 }
 
 function selectConsole()   {
@@ -108,9 +107,21 @@ ipcRenderer.on('populate-console-list', function(e, consoles)  {
 });
 
 ipcRenderer.on('populate-last-selected-console-index', function(e, index)  {
-    console.log("Index");
-    console.log(index);
     selectSystem(0, index);
 });
 
 ipcRenderer.send('request-console-list', "");
+
+//Load Minecraft splash text
+var request = new XMLHttpRequest();
+request.onload = function() {
+    var fileContent = this.responseText;
+    var fileContentLines = fileContent.split( '\n' );
+    var randomLineIndex = Math.floor( Math.random() * fileContentLines.length );
+    var randomLine = fileContentLines[ randomLineIndex ];
+
+    document.getElementById('splashText').innerHTML = randomLine;
+    document.getElementById('splashText').classList.add('pulse');
+};
+request.open('GET', '../splashes.txt', true);
+request.send();

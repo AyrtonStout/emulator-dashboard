@@ -54,12 +54,8 @@ function addListener(gamepadNum)   {
     gamepad.addListener("button-long", (button, elapsed) => {
         //thingie.send('button-long', button);
         if (killCombination.indexOf(button) >= 0)   {
-            console.log("Button found");
             addKillPress(button, gamepad.deviceNumber);
-        } else {
-            console.log("Button not found");
         }
-        console.log("[%d] Hold button %s for %dms", gamepadNum, button, elapsed);
     });
 
     gamepad.addListener("button-short", (button, elapsed) => {
