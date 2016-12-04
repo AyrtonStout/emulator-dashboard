@@ -1,11 +1,11 @@
 const mysql = require('mysql');
 
-let db_config = {
-    host: 'localhost',
-    user: 'root',
-    password: 'telephone314',
-    database: 'emulation_station'
-};
+try {
+    var db_config = require('../../db.conf.json');
+} catch (err) {
+    console.log('Error reading db.conf.json! Copy db.conf.example and rename it db.conf.json with your MySQL database credentials');
+	console.log(err);
+}
 
 var connection = mysql.createConnection(db_config);
 
