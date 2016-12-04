@@ -9,10 +9,15 @@ const fs = require('fs');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+let fullScreen = true;
+
 function createWindow () {
     // Create the browser window.
-    //mainWindow = new BrowserWindow({width: 1200, height: 800, kiosk: true, frame: false});
-    mainWindow = new BrowserWindow({width: 1200, height: 800});
+    if (fullScreen) {
+        mainWindow = new BrowserWindow({width: 1200, height: 800, kiosk: true, frame: false});
+    } else {
+        mainWindow = new BrowserWindow({width: 1200, height: 800});
+    }
 
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/../public/html/index.html`);
