@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- ScpControl Configuration Data. 12/3/2016 7:18:00 PM -->
+
+<ScpControl>
+  <Idle>600000</Idle>
+  <LX>False</LX>
+  <LY>False</LY>
+  <RX>False</RX>
+  <RY>False</RY>
+  <LED>False</LED>
+</ScpControl>

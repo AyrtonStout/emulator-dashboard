@@ -1,4 +1,4 @@
-const xinput = require('xinput.js');
+const xinput = require('xinputjs');
 const gameLauncher = require('./gameLauncher.js');
 
 var self = this;
