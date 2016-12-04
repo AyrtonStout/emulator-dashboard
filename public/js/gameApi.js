@@ -33,6 +33,7 @@ function sendQuery(fileSystemName, fileExtension, system, options)   {
                 });
             } else {
                 console.log(`Failed to find game with name identical to "${fileSystemName}"`);
+                console.log(`Looked for slug "${targetSlug}"`);
                 games.map(function(game) { console.log(game.name); });
                 console.log("\nAttempted URL:");
                 console.log(url);
@@ -42,10 +43,28 @@ function sendQuery(fileSystemName, fileExtension, system, options)   {
 
 function convertToSlug(string)    {
     string = string.toLowerCase();
-    string = string.replace(/[:.]/g, '');
+    string = string.replace(/ - /g, ' '); //The slug for the SNES TMNT game looks like "Stuff - More stuff" and the hyphen gets removed
+    string = string.replace(/[:.!]/g, '');
     string = string.replace(/[ ']/g, '-');
     string = string.replace(/(-)\1+/g, '$1');
-    return string;
+	
+    return changeSlugForAPIBeingWrong(string);
+}
+
+//The IGDB can be wrong on what games are called and this prevents them from being found when searching
+//This function converts their real slug into the slug IGDB expects.
+function changeSlugForAPIBeingWrong(slug) {
+    if (slug == "battletanx") {
+        return "battle-tanx";
+    } else if (slug == "battletanx-global-assault") {
+        return "battle-tanx-global-assault"
+    } else if (slug == "aerofighters-assault") {
+        return "aero-fighters-assault"; 
+    } else if (slug == "road-runner-s-death-valley-rally") {
+        return "road-runners-death-valley-rally"; //This slug it wants is just wrong. Different than how all the others were generated. Good job IGDB
+    }
+	
+	return slug;
 }
 
 function downloadCover(gameId, cloudinaryId)    {

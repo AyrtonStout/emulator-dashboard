@@ -45,7 +45,7 @@ this.getActiveGameSystems = function(callback) {
 
 this.getGames = function(system, callback)    {
 	try {
-        connection.query(`SELECT * FROM games WHERE system = ${system};`, function (err, rows, fields) {
+        connection.query(`SELECT * FROM games WHERE system = ${system} ORDER BY name ASC;`, function (err, rows, fields) {
             if (err) throw err;
             callback(rows);
         });
