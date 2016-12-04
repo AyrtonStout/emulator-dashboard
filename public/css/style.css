@@ -74,6 +74,33 @@ a {
     text-align: center;
 }
 
+.scrollbar-container {
+    display: flex;
+}
+
+.scrollbar-container > div:first-child {
+    width: 90%;
+}
+
+.scrollbar-container > div:last-child {
+    flex: 1;
+    width: 8%;
+}
+
+.scrollbar {
+    position: relative;
+    margin-left: 5px;
+}
+
+.scrollbar > div:first-child {
+    top: 0;
+}
+
+.scrollbar > div:last-child {
+    position: absolute;
+    bottom: 10px;
+}
+
 .embiggen {
     font-size: 40px;
     text-transform: capitalize;
@@ -84,6 +111,22 @@ a {
 
 .splash {
     text-align: center;
+}
+
+.up-arrow {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 30px solid #1268da;
+}
+
+.down-arrow {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid #1268da;
 }
 
 /* Dark text #AC9D93 */

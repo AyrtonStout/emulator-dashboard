@@ -14,9 +14,9 @@ let fullScreen = true;
 function createWindow () {
     // Create the browser window.
     if (fullScreen) {
-        mainWindow = new BrowserWindow({width: 1200, height: 800, kiosk: true, frame: false});
+        mainWindow = new BrowserWindow({width: 1920, height: 1080, kiosk: true, frame: false});
     } else {
-        mainWindow = new BrowserWindow({width: 1200, height: 800});
+        mainWindow = new BrowserWindow({width: 1600, height: 900});
     }
 
     // and load the index.html of the app.
@@ -70,3 +70,4 @@ function updateGameMySQLData(systemData)  {
 }
 
 mysql.getActiveGameSystems(updateGameMySQLData);
+

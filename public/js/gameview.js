@@ -1,6 +1,10 @@
 const {ipcRenderer} = require('electron');
+
+let maxGamesInView = 3;
 var selectedGame = 0;
+var firstGameId = 0; //The list of games can be scrolled through. This is the ID of the first game in the list
 var numGames = 3;
+var gameData = null;
 
 ipcRenderer.on('button-long', function(e, arg)    {
     //document.getElementById("buttonLong").innerHTML = "Button Long: " + arg;
@@ -21,8 +25,44 @@ ipcRenderer.on('button-short', function(e, button)    {
 function moveSelection(direction)   {
     if (selectedGame + direction === numGames) return false;
     if (selectedGame + direction < 0) return false;
+
+    if (selectedGame + direction >= firstGameId + maxGamesInView)    {
+        adjustGameList(direction); //Going down
+    } else if (selectedGame + direction < firstGameId)  {
+        adjustGameList(direction); //Going up
+    }
+
     selectGame(selectedGame, selectedGame + direction);
     selectedGame += direction;
+}
+
+function adjustGameList(direction)  {
+    let list = document.getElementById("gameList");
+    if (direction === 1) { //Down
+        list.removeChild(list.firstChild);
+        let gameIndex = firstGameId + maxGamesInView;
+        let gameNode = createGameListNode(gameData[gameIndex], gameIndex);
+        list.appendChild(gameNode);
+        firstGameId++;
+        if (firstGameId === 1) {
+            document.getElementById('scrollUp').style.display = 'inherit';
+        }
+        if (firstGameId + maxGamesInView === numGames)  {
+            document.getElementById('scrollDown').style.display = 'none';
+        }
+    } else if (direction === -1)    { //Up
+        list.removeChild(list.lastChild);
+        let gameIndex = firstGameId - 1;
+        let gameNode = createGameListNode(gameData[gameIndex], gameIndex);
+        list.insertBefore(gameNode, list.firstChild);
+        firstGameId--;
+        if (firstGameId === 0)  {
+            document.getElementById('scrollUp').style.display = 'none';
+        }
+        if (firstGameId + maxGamesInView < numGames) {
+            document.getElementById('scrollDown').style.display = 'inherit';
+        }
+    }
 }
 
 function selectGame(oldGame, newGame)    {
@@ -46,32 +86,38 @@ function getSelectedGameId()    {
     return document.getElementsByClassName("selected")[0].getAttribute('gameId');
 }
 
+function createGameListNode(gameData, nodeId)   {
+    let node = document.createElement("div");
+
+    node.setAttribute('id', 'game' + nodeId);
+    node.setAttribute('gameId', gameData.id);
+    node.setAttribute('fileName', gameData.file_name);
+    node.classList.add("animated");
+    node.innerHTML = gameData.name;
+
+    return node;
+}
+
 ipcRenderer.on('populate-game-list', function(e, gameData)  {
+    self.gameData = gameData;
     numGames = gameData.length;
     for (let i = 0; i < gameData.length; i++)    {
-        let game = gameData[i];
-        let node = document.createElement("div");
+        let node = createGameListNode(gameData[i], i);
 
-        node.setAttribute('id', 'game' + i);
-        node.setAttribute('gameId', game.id);
-        node.setAttribute('fileName', game.file_name);
-        node.classList.add("animated");
-        node.innerHTML = game.name;
         document.getElementById("gameList").appendChild(node);
+
+        if ((i + 1) === maxGamesInView) break;
     }
     document.getElementById("game0").classList.add("selected");
     ipcRenderer.send('request-game-details', getSelectedGameId());
     setGameInfo(0);
-});
 
-//Probably shouldn't actually use this. Sending a request every time you go up and down through the game list seems dumb
-ipcRenderer.on('populate-game-details', function(e, gameData)   {
-    console.log("Received game details");
-    console.log(gameData);
+    if (numGames > maxGamesInView) {
+        document.getElementById('scrollDown').style.display = 'inherit';
+    }
 });
 
 ipcRenderer.on('populate-console-info', function(e, consoleInfo)    {
-    console.log(consoleInfo);
     document.getElementById("consoleName").innerHTML = consoleInfo.abbreviation;
     document.getElementById("consoleImage").setAttribute("src", `../imgs/${consoleInfo.abbreviation}.png`);
 });
