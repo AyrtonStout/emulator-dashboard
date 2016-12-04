@@ -59,12 +59,12 @@ function changeSlugForAPIBeingWrong(slug) {
     } else if (slug == "battletanx-global-assault") {
         return "battle-tanx-global-assault"
     } else if (slug == "aerofighters-assault") {
-        return "aero-fighters-assault"; 
+        return "aero-fighters-assault";
     } else if (slug == "road-runner-s-death-valley-rally") {
         return "road-runners-death-valley-rally"; //This slug it wants is just wrong. Different than how all the others were generated. Good job IGDB
     }
-	
-	return slug;
+
+    return slug;
 }
 
 function downloadCover(gameId, cloudinaryId)    {
