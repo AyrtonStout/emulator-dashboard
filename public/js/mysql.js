@@ -1,49 +1,98 @@
 const mysql = require('mysql');
 
-var connection = mysql.createConnection({
+let db_config = {
     host: 'localhost',
     user: 'root',
     password: 'telephone314',
     database: 'emulation_station'
-});
+};
+
+var connection = mysql.createConnection(db_config);
 
 connection.connect();
 
+function handleDisconnect() {
+  connection = mysql.createConnection(db_config);
+
+  connection.connect(function(err) {
+    if(err) {
+      console.log('error when connecting to db:', err);
+      setTimeout(handleDisconnect, 2000);
+    }
+  });
+
+  connection.on('error', function(err) {
+    console.log('db error', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+      handleDisconnect();                         // lost due to either server restart, or a
+    } else {                                      // connnection idle timeout (the wait_timeout
+      throw err;                                  // server variable configures this)
+    }
+  });
+}
+
 this.getActiveGameSystems = function(callback) {
-    connection.query('SELECT * FROM game_systems WHERE active = 1;', function (err, rows, fields) {
-        if (err) throw err;
-        callback(rows);
-    });
+    try {
+        connection.query(`SELECT * FROM game_systems WHERE active = 1;`, function (err, rows, fields) {
+            if (err) throw err;
+            callback(rows);
+        });
+    } catch (err) {
+        handleDisconnect();
+        getActiveGameSystems(callback);
+    }
 };
 
 this.getGames = function(system, callback)    {
-    connection.query(`SELECT * FROM games WHERE system = ${system};`, function (err, rows, fields)  {
-        if (err) throw err;
-        callback(rows);
-    });
+	try {
+        connection.query(`SELECT * FROM games WHERE system = ${system};`, function (err, rows, fields) {
+            if (err) throw err;
+            callback(rows);
+        });
+    } catch (err) {
+        handleDisconnect();
+        getGames(system, callback);
+    }
 };
 
 this.getGameData = function(gameId, callback)   {
-    connection.query(`SELECT * FROM games WHERE id = ${gameId};`, function (err, rows, fields)  {
-        if (err) throw err;
-        callback(rows);
-    });
+	try {
+        connection.query(`SELECT * FROM games WHERE id = ${gameId};`, function (err, rows, fields) {
+            if (err) throw err;
+            callback(rows);
+        });
+    } catch (err) {
+        handleDisconnect();
+        getGameData(gameId, callback);
+    }
 };
 
 this.getConsoleData = function(consoleId, callback) {
-    connection.query(`SELECT * FROM game_systems WHERE id = ${consoleId}`, function (err, rows, fields) {
-        callback(rows);
-    });
+	try {
+        connection.query(`SELECT * FROM game_systems WHERE id = ${consoleId}`, function (err, rows, fields) {
+            if (err) throw err;
+            callback(rows);
+        });
+    } catch (err) {
+        handleDisconnect();
+        getConsoleData(consoleId, callback);
+    }
 };
 
 this.addGame = function(name, fileSystemName, system, release, callback)   {
-    release = new Date(release);
-    release = `${release.getFullYear()}-${release.getMonth()}-${release.getDay()}`;
-    let sql = `INSERT INTO games (name, file_name, system, \`release\`) VALUES (${mysql.escape(name)}, ${mysql.escape(fileSystemName)}, ${system}, '${release}')`;
-    sql += `ON DUPLICATE KEY UPDATE \`release\` = '${release}', file_name = ${mysql.escape(fileSystemName)}`;
-    connection.query(sql, function (err, result)    {
-        if (err) throw err;
+	try {
+        let releaseDate = new Date(release);
+        releaseDate = `${releaseDate.getFullYear()}-${releaseDate.getMonth()}-${releaseDate.getDay()}`;
+        let sql = `INSERT INTO games (name, file_name, system, \`release\`) VALUES (${mysql.escape(name)}, ${mysql.escape(fileSystemName)}, ${system}, '${releaseDate}')`;
+        sql += `ON DUPLICATE KEY UPDATE \`release\` = '${releaseDate}', file_name = ${mysql.escape(fileSystemName)}`;
+        
+		connection.query(sql, function (err, result)    {
+            if (err) throw err;
 
-        callback(result.insertId);
-    });
+            callback(result.insertId);
+        });
+    } catch (err) {
+        handleDisconnect();
+        addGame(name, fileSystemName, system, release, callback);
+    }
 };
