@@ -30,7 +30,7 @@ this.launchEmulator = function(consoleId, gameName)   {
         let exePath = "mupen64plus-ui-console.exe";
         let romPath = "ROMs/";
         let game = `${romPath}${gameName}`;
-        let args = "--configdir . --resolution 1920x1440";
+        let args = "--configdir . --resolution 1280x960";
 
         execString = `${exePath} ${args} "${game}"`;
     }

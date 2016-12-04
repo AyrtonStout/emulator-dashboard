@@ -1,0 +1,254 @@
+SCP Bluetooth Driver Installer 1.0.0.103 [12/3/2016 4:35:36 PM]
+
+Detected - Microsoft Windows 10 Pro (6.2.9200.0 AMD64)
+Selected DEFAULT configuration.
+
+SUCCESS - Virtual Bus Created
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing INF file 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\ScpVBus.inf' (Plug and Play).
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing devices with Id "root\ScpVBus" using INF "C:\Windows\System32\DriverStore\FileRepository\scpvbus.inf_amd64_21ca245c0e23d7a5\ScpVBus.inf".
+INFO    - ENTER UpdateDriverForPlugAndPlayDevices...
+SUCCESS - RETURN UpdateDriverForPlugAndPlayDevices.
+INFO    - Installation was successful.
+SUCCESS - Install completed
+INFO    - RETURN: DriverPackageInstallW  (0x0)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0x103)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing INF file 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\Ds3WinUsb.inf' (Plug and Play).
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing devices with Id "USB\VID_054C&PID_0268&REV_0100" using INF "C:\Windows\System32\DriverStore\FileRepository\ds3winusb.inf_amd64_15691982ca5c21ae\Ds3WinUsb.inf".
+INFO    - ENTER UpdateDriverForPlugAndPlayDevices...
+SUCCESS - RETURN UpdateDriverForPlugAndPlayDevices.
+INFO    - Installation was successful.
+SUCCESS - Install completed
+INFO    - RETURN: DriverPackageInstallW  (0x0)
+INFO    - SCP DS3 Service Started.
+
+Install Succeeded.
+
+-- Install Summary --
+SCP DS3 Service
+Bus Device
+Bus Driver
+DS3 USB Driver
+
+
+
+SCP Bluetooth Driver Installer 1.0.0.103 [12/3/2016 4:48:05 PM]
+
+Detected - Microsoft Windows 10 Pro (6.2.9200.0 AMD64)
+Selected DEFAULT configuration.
+
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0x103)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0x103)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0xE000020B)
+
+Install Succeeded.
+
+-- Install Summary --
+
+
+INFO    - SCP DS3 Service Stopped.
+INFO    - ENTER:  DriverPackageUninstallW
+INFO    - No driver store entry for 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\BthWinUsb.inf' found.
+INFO    - RETURN: DriverPackageUninstallW  (0xE0000302)
+INFO    - ENTER:  DriverPackageUninstallW
+INFO    - Uninstalling driver package C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\Ds3WinUsb.inf...
+INFO    - Successfully uninstalled 'C:\Windows\INF\oem16.inf'.
+SUCCESS - Phantom device with device instance ID 'USB\VID_054C&PID_0268\5&E658374&0&3' marked for reinstall.
+INFO    - Successfully uninstalled 1 devices for C:\Windows\System32\DriverStore\FileRepository\ds3winusb.inf_amd64_15691982ca5c21ae\ds3winusb.inf.
+INFO    - Successfully deleted properties for driver store entry 'C:\Windows\System32\DriverStore\FileRepository\ds3winusb.inf_amd64_15691982ca5c21ae\ds3winusb.inf'.
+SUCCESS - Uninstall completed.
+INFO    - RETURN: DriverPackageUninstallW  (0x0)
+SUCCESS - Virtual Bus Removed
+
+Uninstall Succeeded.
+
+-- Uninstall Summary --
+SCP DS3 Service
+Bus Device
+DS3 USB Driver
+
+SUCCESS - Virtual Bus Created
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing INF file 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\ScpVBus.inf' (Plug and Play).
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing devices with Id "root\ScpVBus" using INF "C:\Windows\System32\DriverStore\FileRepository\scpvbus.inf_amd64_21ca245c0e23d7a5\scpvbus.inf".
+INFO    - ENTER UpdateDriverForPlugAndPlayDevices...
+SUCCESS - RETURN UpdateDriverForPlugAndPlayDevices.
+INFO    - Installation was successful.
+SUCCESS - Install completed
+INFO    - RETURN: DriverPackageInstallW  (0x0)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0xE000020B)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0xE000020B)
+INFO    - SCP DS3 Service Started.
+
+Install Succeeded.
+
+-- Install Summary --
+SCP DS3 Service
+Bus Device
+Bus Driver
+
+
+INFO    - SCP DS3 Service Stopped.
+INFO    - ENTER:  DriverPackageUninstallW
+INFO    - No driver store entry for 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\BthWinUsb.inf' found.
+INFO    - RETURN: DriverPackageUninstallW  (0xE0000302)
+INFO    - ENTER:  DriverPackageUninstallW
+INFO    - No driver store entry for 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\Ds3WinUsb.inf' found.
+INFO    - RETURN: DriverPackageUninstallW  (0xE0000302)
+SUCCESS - Virtual Bus Removed
+
+Uninstall Succeeded.
+
+-- Uninstall Summary --
+SCP DS3 Service
+Bus Device
+
+SUCCESS - Virtual Bus Created
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing INF file 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\ScpVBus.inf' (Plug and Play).
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing devices with Id "root\ScpVBus" using INF "C:\Windows\System32\DriverStore\FileRepository\scpvbus.inf_amd64_21ca245c0e23d7a5\scpvbus.inf".
+INFO    - ENTER UpdateDriverForPlugAndPlayDevices...
+SUCCESS - RETURN UpdateDriverForPlugAndPlayDevices.
+INFO    - Installation was successful.
+SUCCESS - Install completed
+INFO    - RETURN: DriverPackageInstallW  (0x0)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0x103)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0xE000020B)
+INFO    - SCP DS3 Service Started.
+
+Install Succeeded.
+
+-- Install Summary --
+SCP DS3 Service
+Bus Device
+Bus Driver
+
+
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing INF file 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\ScpVBus.inf' (Plug and Play).
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing devices with Id "root\ScpVBus" using INF "C:\Windows\System32\DriverStore\FileRepository\scpvbus.inf_amd64_21ca245c0e23d7a5\scpvbus.inf".
+INFO    - Will force install because driver is not better and force flag is set.
+INFO    - ENTER UpdateDriverForPlugAndPlayDevices...
+SUCCESS - RETURN UpdateDriverForPlugAndPlayDevices.
+INFO    - Installation was successful.
+SUCCESS - Install completed
+INFO    - RETURN: DriverPackageInstallW  (0x0)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing INF file 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\BthWinUsb.inf' (Plug and Play).
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing devices with Id "USB\VID_0A5C&PID_21E8&REV_0112" using INF "C:\Windows\System32\DriverStore\FileRepository\bthwinusb.inf_amd64_20bd213ec24c27eb\BthWinUsb.inf".
+INFO    - Will force install because driver is not better and force flag is set.
+INFO    - ENTER UpdateDriverForPlugAndPlayDevices...
+SUCCESS - RETURN UpdateDriverForPlugAndPlayDevices.
+INFO    - Installation was successful.
+SUCCESS - Install completed
+INFO    - RETURN: DriverPackageInstallW  (0x0)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0xE000020B)
+
+Install Succeeded. [Reboot Required]
+
+-- Install Summary --
+Bus Driver
+Bluetooth Driver
+
+
+
+SCP Bluetooth Driver Installer 1.0.0.103 [12/3/2016 6:36:01 PM]
+
+Detected - Microsoft Windows 10 Pro (6.2.9200.0 AMD64)
+Selected DEFAULT configuration.
+
+INFO    - SCP DS3 Service Stopped.
+INFO    - ENTER:  DriverPackageUninstallW
+INFO    - Uninstalling driver package C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\BthWinUsb.inf...
+INFO    - Successfully uninstalled 'C:\Windows\INF\oem16.inf'.
+SUCCESS - Device with device instance ID 'USB\VID_0A5C&PID_21E8\5CF3707A81BA' reinstalled.
+INFO    - Successfully uninstalled 1 devices for C:\Windows\System32\DriverStore\FileRepository\bthwinusb.inf_amd64_20bd213ec24c27eb\bthwinusb.inf.
+INFO    - Successfully deleted properties for driver store entry 'C:\Windows\System32\DriverStore\FileRepository\bthwinusb.inf_amd64_20bd213ec24c27eb\bthwinusb.inf'.
+SUCCESS - Uninstall completed.
+INFO    - RETURN: DriverPackageUninstallW  (0x0)
+INFO    - ENTER:  DriverPackageUninstallW
+INFO    - No driver store entry for 'C:\Users\emulation-station\test-of-emulator-dashboard\emulator-dashboard\ScpServer\bin\System\Ds3WinUsb.inf' found.
+INFO    - RETURN: DriverPackageUninstallW  (0xE0000302)
+SUCCESS - Virtual Bus Removed
+
+Uninstall Succeeded.
+
+-- Uninstall Summary --
+SCP DS3 Service
+Bus Device
+Bluetooth Driver
+
+
+SCP Bluetooth Driver Installer 1.0.0.103 [12/3/2016 6:49:22 PM]
+
+Detected - Microsoft Windows 10 Pro (6.2.9200.0 AMD64)
+Selected DEFAULT configuration.
+
+SUCCESS - Virtual Bus Created
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing INF file 'C:\Users\emulation-station\emulator-dashboard\ScpServer\bin\System\ScpVBus.inf' (Plug and Play).
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing devices with Id "root\ScpVBus" using INF "C:\Windows\System32\DriverStore\FileRepository\scpvbus.inf_amd64_21ca245c0e23d7a5\scpvbus.inf".
+INFO    - ENTER UpdateDriverForPlugAndPlayDevices...
+SUCCESS - RETURN UpdateDriverForPlugAndPlayDevices.
+INFO    - Installation was successful.
+SUCCESS - Install completed
+INFO    - RETURN: DriverPackageInstallW  (0x0)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing INF file 'C:\Users\emulation-station\emulator-dashboard\ScpServer\bin\System\BthWinUsb.inf' (Plug and Play).
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - Installing devices with Id "USB\VID_0A5C&PID_21E8&REV_0112" using INF "C:\Windows\System32\DriverStore\FileRepository\bthwinusb.inf_amd64_20bd213ec24c27eb\BthWinUsb.inf".
+INFO    - Will force install because driver is not better and force flag is set.
+INFO    - ENTER UpdateDriverForPlugAndPlayDevices...
+SUCCESS - RETURN UpdateDriverForPlugAndPlayDevices.
+INFO    - Installation was successful.
+SUCCESS - Install completed
+INFO    - RETURN: DriverPackageInstallW  (0x0)
+INFO    - ENTER:  DriverPackageInstallW
+INFO    - Looking for Model Section [SCProductions.NTamd64]...
+INFO    - RETURN: DriverPackageInstallW  (0xE000020B)
+INFO    - SCP DS3 Service Started.
+
+Install Succeeded.
+
+-- Install Summary --
+SCP DS3 Service
+Bus Device
+Bus Driver
+Bluetooth Driver
+
+
+
