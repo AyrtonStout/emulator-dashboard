@@ -1,2 +1,4 @@
 .idea
 node_modules
+ScpServer/bin/ScpService.log
+public/imgs/covers/*.jpg
