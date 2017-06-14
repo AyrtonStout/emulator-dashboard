@@ -3,3 +3,7 @@ node_modules
 ScpServer/bin/ScpService.log
 public/imgs/covers/*.jpg
 db.conf.json
+ScpControl.xml
+ScpDriver.log
+ScpService.InstallLog
+ScpService.InstallState

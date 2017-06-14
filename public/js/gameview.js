@@ -1,9 +1,9 @@
 const {ipcRenderer} = require('electron');
 
-let maxGamesInView = 3;
+let maxGamesInView = 15;
 var selectedGame = 0;
 var firstGameId = 0; //The list of games can be scrolled through. This is the ID of the first game in the list
-var numGames = 3;
+var numGames = null;
 var gameData = null;
 
 ipcRenderer.on('button-long', function(e, arg)    {

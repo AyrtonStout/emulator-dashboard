@@ -11,6 +11,15 @@ var connection = mysql.createConnection(db_config);
 
 connection.connect();
 
+keepAliveForever();
+
+function keepAliveForever()	{
+    connection.query('SELECT * FROM game_systems LIMIT 1', function (err, rows, fields) {
+        console.log('Pinging to keep MySQL connection alive');
+    });
+    setTimeout(keepAliveForever, 600000);
+}
+
 function handleDisconnect() {
   connection = mysql.createConnection(db_config);
 

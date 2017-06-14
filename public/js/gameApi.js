@@ -29,7 +29,9 @@ function sendQuery(fileSystemName, fileExtension, system, options)   {
             let game = games[0];
             if (game)   {
                 mysql.addGame(game.name, (fileSystemName + fileExtension), system, game.first_release_date, function (insertId)   {
-                    downloadCover(insertId, game.cover.cloudinary_id);
+                    if (insertId !== 0) {
+                        downloadCover(insertId, game.cover.cloudinary_id);
+                    }
                 });
             } else {
                 console.log(`Failed to find game with name identical to "${fileSystemName}"`);
@@ -44,9 +46,9 @@ function sendQuery(fileSystemName, fileExtension, system, options)   {
 function convertToSlug(string)    {
     string = string.toLowerCase();
     string = string.replace(/ - /g, ' '); //The slug for the SNES TMNT game looks like "Stuff - More stuff" and the hyphen gets removed
-    string = string.replace(/[:.!]/g, '');
-    string = string.replace(/[ ']/g, '-');
-    string = string.replace(/(-)\1+/g, '$1');
+    string = string.replace(/[:.!]/g, ''); //Remove punctuation
+    string = string.replace(/[ ']/g, '-'); //Transform spaces into hyphens
+    string = string.replace(/(-)\1+/g, '$1'); //Compact multiple hyphens into a single hyphen
 	
     return changeSlugForAPIBeingWrong(string);
 }
@@ -62,16 +64,19 @@ function changeSlugForAPIBeingWrong(slug) {
         return "aero-fighters-assault";
     } else if (slug == "road-runner-s-death-valley-rally") {
         return "road-runners-death-valley-rally"; //This slug it wants is just wrong. Different than how all the others were generated. Good job IGDB
+    } else if (slug == "un-squadron") {
+        return "u-n-squadron"; //Same with this. Apparently it's common
     }
 
     return slug;
 }
 
 function downloadCover(gameId, cloudinaryId)    {
-    let url = `https://res.cloudinary.com/igdb/image/upload/t_cover_big_2x/${cloudinaryId}`;
+    let url = `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${cloudinaryId}.jpg`;
     let imageDir = `./public/imgs/covers/${gameId}.jpg`;
 
     let options = {url: url};
+
     http.get(options, imageDir, function (error, result) {
         if (error) {
             console.error("Error downloading game cover");
@@ -81,3 +86,4 @@ function downloadCover(gameId, cloudinaryId)    {
         }
     });
 }
+
