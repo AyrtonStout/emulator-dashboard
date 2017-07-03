@@ -20,18 +20,25 @@ a {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
     list-style: none;
 }
 
-.game {
+.grid > li {
+    width: 33%;
+    margin-bottom: 100px;
+}
+
+.game > div {
     width: 250px;
     height: 170px;
     background-color: #D7EEF4;
     border: 3px solid #87CDDE;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.selected {
+.selected > div {
     background-color: #D9ECF9;
     /*background-color: #ff3f41;*/
     border-color: #2F94DA;

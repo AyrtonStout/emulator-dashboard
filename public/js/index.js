@@ -94,12 +94,17 @@ ipcRenderer.on('populate-console-list', function(e, consoles)  {
         let node = document.createElement("li");
         node.setAttribute('console-id', system.id);
         node.setAttribute('id', "game" + i);
+
+        node.classList.add("animated");
+
+        let div = document.createElement('div');
+        node.classList.add("game");
         if (i == 0) {
             node.classList.add("selected");
         }
-        node.classList.add("animated");
-        node.classList.add("game");
-        node.appendChild(img);
+
+        div.appendChild(img);
+        node.appendChild(div);
 
         getConsoleAppendPoint().appendChild(node);
     }

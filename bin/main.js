@@ -15,6 +15,7 @@ function createWindow () {
     // Create the browser window.
     if (fullScreen) {
         mainWindow = new BrowserWindow({width: 1920, height: 1080, kiosk: true, frame: false});
+        //mainWindow = new BrowserWindow({width: 1920, height: 1080});
     } else {
         mainWindow = new BrowserWindow({width: 1600, height: 900});
     }
