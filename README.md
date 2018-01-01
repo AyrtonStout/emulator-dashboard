@@ -1,4 +1,4 @@
-##Building##
+## Building
 A mostly complete (I say mostly because sometimes it doesn't seem to work super well) set of build steps necessary to compile this project:
 
 npm install node-gyp
@@ -25,7 +25,7 @@ HOME=~/.electron-gyp node-gyp rebuild --target=1 --arch=x64 --dist-url=https://a
 If any modules fail to load, try running the "HOME..." command in that library's folder. This happened once with mmmagic (but not other times? Confusing)
 
 
-##ScpDriver##
+## ScpDriver
 The SCP ToolKit used to make PS3 controllers act like Xbox 360 controllers is included in this repository. This is not my work and is merely included out of convenience.
 The GitHub page for this project is located at https://github.com/nefarius/ScpToolkit and it is available under the GNU General Public License (this license is included in the ScpServer directory of this project)
 
