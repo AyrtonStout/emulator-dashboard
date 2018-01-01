@@ -25,7 +25,7 @@ this.launchEmulator = function(consoleId, gameName)   {
         let args = "-fullscreen";
         execString = `"${exePath}" ${args} "${game}"`;
     } else if (consoleId == 4)  {
-        //This emulator doesn't seem to want to worth without executing it from the root directory of the emulator
+        //This emulator doesn't seem to want to work without executing it from the root directory of the emulator
         shellDirectory = emulatorPath + "Mupen64/";
         let exePath = "mupen64plus-ui-console.exe";
         let romPath = "ROMs/";
@@ -33,6 +33,13 @@ this.launchEmulator = function(consoleId, gameName)   {
         let args = "--configdir . --resolution 1280x960";
 
         execString = `${exePath} ${args} "${game}"`;
+    } else if (consoleId == 8) {
+        let path = emulatorPath + "PCSX2/";
+        let exePath = path + "pcsx2.exe";
+        let romPath = path + "ROMs/"; // Soothe my OCD by naming this ISOs. Can't do it now, other code expects it to be ROM because I was stupid before
+        let game = `${romPath}${gameName}`;
+        let args = "--nogui --fullscreen";
+        execString = `"${exePath}" ${args} "${game}"`;
     }
     console.log("DEBUG: Exec-ing game with command:");
     console.log(execString);

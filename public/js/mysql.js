@@ -52,15 +52,15 @@ this.getActiveGameSystems = function(callback) {
     }
 };
 
-this.getGames = function(system, callback)    {
+this.getGames = function(system, callback, additionalCallbackArg)    {
 	try {
         connection.query(`SELECT * FROM games WHERE system = ${system} ORDER BY name ASC;`, function (err, rows, fields) {
             if (err) throw err;
-            callback(rows);
+            callback(rows, system, additionalCallbackArg);
         });
     } catch (err) {
         handleDisconnect();
-        getGames(system, callback);
+        getGames(system, callback, additionalCallbackArg);
     }
 };
 

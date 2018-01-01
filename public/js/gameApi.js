@@ -9,18 +9,24 @@ this.queryGameData = function(gameName, fileExtension, system)    {
 };
 
 function sendQuery(fileSystemName, fileExtension, system, options)   {
-    let apiKey = "UZ7Yzmbll7mshdQKUXm6iIzXeMKDp1BMIUPjsnA7KrwDs0Mahj";
+    let apiKey = "a28476d48faaa8b19a2649a297057729";
 
     let limit =  options.limit || 30;
     let offset =  options.offset || 0;
     let order =  options.order || "release_dates.date:desc";
 
-    let url = `https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=${limit}&offset=${offset}&search=${fileSystemName}`;
+    let url = `https://api-2445582011268.apicast.io/games/?fields=*&limit=${limit}&offset=${offset}&search=${fileSystemName}`;
 
     unirest.get(encodeURI(url))
-        .header("X-Mashape-Key", apiKey)
+        .header("user-key", apiKey)
         .header("Accept", "application/json")
         .end(function (result) {
+            if (!Array.isArray(result.body)) {
+                console.error("Failed to get a good response from the game api!");
+                console.error(`Attempted to query: ${url}`);
+                console.error(result.body);
+                return;
+            }
             let games = result.body;
             let targetSlug = convertToSlug(fileSystemName);
             games = games.filter(function(game) {

@@ -15,7 +15,6 @@ function createWindow () {
     // Create the browser window.
     if (fullScreen) {
         mainWindow = new BrowserWindow({width: 1920, height: 1080, kiosk: true, frame: false});
-        //mainWindow = new BrowserWindow({width: 1920, height: 1080});
     } else {
         mainWindow = new BrowserWindow({width: 1600, height: 900});
     }
@@ -55,6 +54,8 @@ function updateGameMySQLData(systemData)  {
     //For each game system
     systemData.forEach(function (system)    {
         let systemFolder = system.emulator_folder;
+        //TODO change this so that the folder is configurable in the DB.
+        //If it isn't configurable, it'll be annoying to have both PS1 and PS2 run from the same emulator
         let path = `C:/Program Files (x86)/Emulation Station/${systemFolder}/ROMs`;
         let ROMs = fs.readdirSync(path);
 
@@ -66,7 +67,21 @@ function updateGameMySQLData(systemData)  {
         });
 
         //And query the igdb API
-        ROMs.forEach((ROM) => { gameApi.queryGameData(ROM[0], ROM[1], system.id); });
+        mysql.getGames(system.id, updateGameIfNotExist, ROMs)
+    });
+}
+
+function updateGameIfNotExist(games, systemId, ROMs) {
+    let gameNames = new Set(); 
+    games.forEach(game => { gameNames.add(game.file_name); });
+
+    ROMs.forEach((ROM) => {
+        let romName = ROM[0];
+        let romExtension = ROM[1];
+        if (!gameNames.has(`${romName}${romExtension}`)) { // Only make a query for a game we don't have data for already
+            console.log(`Getting game data for: ${romName}${romExtension}`);
+            gameApi.queryGameData(romName, romExtension, systemId);
+        }
     });
 }
 
